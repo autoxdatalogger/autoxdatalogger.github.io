@@ -1,4 +1,4 @@
-# Autox Data Logger
+# autoxdatalogger.github.io
 
 Data logger for collecting and analyzing run data for autocross on iOS. Map the course, record your runs, then analyze your performance! Streamlined app flow to quickly analyze data between runs to find time during the event.
 

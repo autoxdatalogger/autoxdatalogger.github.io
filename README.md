@@ -33,7 +33,7 @@ The internal phone GPS will only transmit data at a rate of 1Hz. To work around 
 
 ## Links
 
-- Community: Discord · Buy me a coffee · Instagram
+- Community: [Discord](https://discord.gg/AQCWMdjD) · Instagram
 
 ---
 

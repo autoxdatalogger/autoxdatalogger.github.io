@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autox Data Logger</title>
+    <meta name="description" content="Data logger for collecting and analyzing run data for autocross on iOS. Map the course, record your runs, then analyze your performance.">
+    <style>
+        :root {
+            --bg: #f4f5f7;
+            --surface: #ffffff;
+            --text: #1c1f24;
+            --muted: #5a6470;
+            --accent: #3b5a7a;
+            --accent-dark: #2a4358;
+            --border: #d8dce2;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: var(--accent-dark);
+            color: #ffffff;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.25rem;
+            letter-spacing: -0.01em;
+        }
+
+        header p {
+            margin: 0.75rem auto 0;
+            max-width: 640px;
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        nav {
+            background: var(--accent);
+            padding: 0.75rem 1.5rem;
+            text-align: center;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 0.75rem;
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        nav a:hover { opacity: 1; text-decoration: underline; }
+
+        main {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem 1.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            margin-top: 0;
+            color: var(--accent-dark);
+            font-size: 1.4rem;
+        }
+
+        h3 {
+            color: var(--accent-dark);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        ul { padding-left: 1.25rem; }
+        li { margin-bottom: 0.4rem; }
+
+        a { color: var(--accent); }
+        a:hover { color: var(--accent-dark); }
+
+        .video-link {
+            display: inline-block;
+            background: var(--accent);
+            color: #ffffff;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .video-link:hover { background: var(--accent-dark); color: #ffffff; }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.875rem;
+            padding: 2rem 1rem;
+        }
+
+        footer a { color: var(--muted); margin: 0 0.5rem; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Autox Data Logger</h1>
+        <p>Data logger for collecting and analyzing run data for autocross on iOS. Map the course, record your runs, then analyze your performance. Streamlined app flow to quickly analyze data between runs to find time during the event.</p>
+    </header>
+
+    <nav>
+        <a href="#features">Features</a>
+        <a href="#video">Overview</a>
+        <a href="#data">Data Collection</a>
+        <a href="#hardware">Hardware</a>
+        <a href="#gps">GPS Notes</a>
+    </nav>
+
+    <main>
+        <section id="features">
+            <h2>Features</h2>
+            <ul>
+                <li>Map the course, including the cones</li>
+                <li>Record your runs with GPS, video, ODB2 and accelerometer data</li>
+                <li>Analyze your runs with GPS traces, video, speed vs distance plots, time deltas, and g-force plots</li>
+                <li>Automatically start and stop recording for hands free data logging</li>
+                <li>Export your data</li>
+                <li>Import runs from others</li>
+            </ul>
+        </section>
+
+        <section id="video">
+            <h2>Overview Video</h2>
+            <p>An overview of the app can be seen in this video on YouTube.</p>
+            <p><a class="video-link" href="https://youtu.be/1R-xmKB7NuA?si=xT87czbXcRUtSAsg" target="_blank" rel="noopener">Watch on YouTube</a></p>
+        </section>
+
+        <section id="data">
+            <h2>Data Collection</h2>
+            <p>The data collection is based on GPS/GNSS, video, and ODB2 data and is compatible with various devices.</p>
+        </section>
+
+        <section id="hardware">
+            <h2>Recommended GPS Devices</h2>
+            <p>These devices connect directly to the app for the best latency and data sample rates.</p>
+            <ul>
+                <li><a href="https://www.racebox.pro/products/racebox-mini" target="_blank" rel="noopener">RaceBox Mini</a></li>
+                <li><a href="https://www.racebox.pro/products/racebox-mini-s" target="_blank" rel="noopener">RaceBox Mini S</a></li>
+                <li><a href="https://www.racebox.pro/products/racebox-micro" target="_blank" rel="noopener">RaceBox Micro</a></li>
+                <li><a href="https://github.com/FlorianMuellerklein/OpensourceGPSDevice4AutoXDatalogger" target="_blank" rel="noopener">Opensource DIY GPS module (under $50!)</a></li>
+                <li><a href="https://github.com/anchit92/ESP32-RaceBox-mini-Emulator/" target="_blank" rel="noopener">Opensource DIY GPS + IMU</a></li>
+            </ul>
+
+            <h2>Other GPS Devices</h2>
+            <p>These devies connect through the iOS bluetooth manager and will have reduced sample rates for data collection. May need to enable the "Sensor Fusion" algorithm to increase the data sample rates</p>
+            <ul>
+                <li><a href="https://www.amazon.com/Dual-Electronics-XGPS160-Multipurpose-Augmentation/dp/B00E65TNYE/ref=asc_df_B00E65TNYE?tag=bingshoppinga-20&linkCode=df0&hvadid=80676876079901&hvnetw=o&hvqmt=e&hvbmt=be&hvdev=c&hvlocint=&hvlocphy=92654&hvtargid=pla-4584276356252922&psc=1&msclkid=b61428395e0411ce3ba841c2103d2e11" target="_blank" rel="noopener">Dual XGPS160</a></li>
+                <li><a href="https://www.amazon.com/Garmin-GLO-Bluetooth-Receiver-010-02184-01/dp/B07M9CZYTD/ref=sr_1_1?crid=2KF95SIECYCGV&dib=eyJ2IjoiMSJ9.E1nOhxLziRgJxa_mWwIz48RnpvbS2zJxjpMpj9uyKXTNQaSIA5Zb_2JjBbfbTrj97nZidn3lQteyhzuntqzW8mOeT6zRksWhOR0s-cVoNsDhTjriAhZ2kv6sw2UuZ-X0RThXt19PWyfF3zc_zhEGGSJdcy4iPGHvjKRiTiWi_JsdzSrBMdt5uEbMOBKk7wd4RKX3JrL0WePJHY0ac89D7eCO7XX1dM9ui8GtblJ-mkc.SZ9Fph3W8XN3h74vykQ_4YN-ac7bg45S16yJ1b3gouw&dib_tag=se&keywords=garmin+glo2&qid=1778077267&sprefix=garmin+glo2%2Caps%2C159&sr=8-1" target="_blank" rel="noopener">Garmin GLO 2</a></li>
+            </ul>
+
+            <h2>Recommended ODB2 Devices</h2>
+            <ul>
+                <li><a href="https://www.amazon.com/Veepeak-Bluetooth-Diagnostic-Supports-Vehicles/dp/B076XVQMVS/ref=asc_df_B076XVQMVS?tag=bingshoppinga-20&linkCode=df0&hvadid=80058400531892&hvnetw=o&hvqmt=e&hvbmt=be&hvdev=c&hvlocint=&hvlocphy=92824&hvtargid=pla-4583657886554327&psc=1&msclkid=1ffa9aa6b5c911b48122f35dfb197db4" target="_blank" rel="noopener">Veepeak OBDCheck BLE+</a></li>
+            </ul>
+
+            <h2>GoPro Cameras</h2>
+            <p>This app is compatible with any GoPro camera that supports a WiFi connection to the phone. Any GoPro model from 5 to 13. Simply connect the phone to the GoPro's wifi network and enable GoPro control in the app settings.</p>
+
+        </section>
+
+        <section id="gps">
+            <h2>Internal Phone GPS</h2>
+            <p>The internal phone GPS will only transmit data at a rate of 1Hz. To work around this, the app includes a sensor fusion algorithm to interpolate between the slow 1Hz GPS readings using the phone's IMU data.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>
+            <a href="https://fmuellerklein.wixsite.com/autoxdrivermod" target="_blank" rel="noopener">AutoX Driver Mod</a>
+        </p>
+        <p>&copy; 2025</p>
+    </footer>
+</body>
+</html>

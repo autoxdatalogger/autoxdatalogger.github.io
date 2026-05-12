@@ -4,158 +4,332 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autox Data Logger</title>
-    <meta name="description" content="Data logger for collecting and analyzing run data for autocross on iOS. Map the course, record your runs, then analyze your performance.">
+    <meta name="description" content="Find time between autocross runs">
     <style>
         :root {
-            --bg: #f4f5f7;
+            --bg: #f7f8fa;
             --surface: #ffffff;
-            --text: #1c1f24;
-            --muted: #5a6470;
+            --text: #0f172a;
+            --text-2: #475569;
+            --muted: #94a3b8;
             --accent: #3b5a7a;
-            --accent-dark: #2a4358;
-            --border: #d8dce2;
+            --accent-2: #5478a0;
+            --accent-dark: #1e293b;
+            --border: #e5e7eb;
+            --radius: 16px;
+            --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.06);
+            --shadow-float: 0 8px 24px rgba(15, 23, 42, 0.12), 0 24px 60px rgba(15, 23, 42, 0.1);
         }
 
         * { box-sizing: border-box; }
 
+        html { scroll-behavior: smooth; }
+
         body {
             margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
         }
 
         header {
-            background: var(--accent-dark);
+            position: relative;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 255, 255, 0.08), transparent 70%),
+                linear-gradient(180deg, var(--accent-dark) 0%, #1f3047 100%);
             color: #ffffff;
-            padding: 2.5rem 1.5rem;
+            padding: 4rem 1.5rem 3.75rem;
             text-align: center;
+            overflow: hidden;
+        }
+
+        .app-icon {
+            width: 112px;
+            height: 112px;
+            border-radius: 24%;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
         }
 
         header h1 {
             margin: 0;
-            font-size: 2.25rem;
-            letter-spacing: -0.01em;
+            font-size: clamp(2rem, 5vw, 3.25rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            text-wrap: balance;
         }
 
         header p {
             margin: 0.75rem auto 0;
             max-width: 640px;
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 1rem;
+        }
+
+        header p:first-of-type {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .header-links {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .header-links a {
+            display: inline-flex;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .header-links a:hover {
+            transform: translateY(-2px);
+            opacity: 0.95;
+        }
+
+        .header-links img {
+            height: 56px;
+            width: auto;
+            display: block;
         }
 
         nav {
-            background: var(--accent);
-            padding: 0.75rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.78);
+            backdrop-filter: saturate(180%) blur(12px);
+            -webkit-backdrop-filter: saturate(180%) blur(12px);
+            border-bottom: 1px solid var(--border);
+            padding: 0.875rem 1.5rem;
             text-align: center;
         }
 
         nav a {
-            color: #ffffff;
+            color: var(--text);
             text-decoration: none;
-            margin: 0 0.75rem;
-            font-size: 0.95rem;
-            opacity: 0.9;
+            margin: 0 0.875rem;
+            font-size: 0.925rem;
+            font-weight: 500;
+            transition: color 0.15s ease;
         }
 
-        nav a:hover { opacity: 1; text-decoration: underline; }
+        nav a:hover { color: var(--accent); }
 
         main {
-            max-width: 800px;
+            max-width: 880px;
             margin: 0 auto;
-            padding: 2rem 1.5rem 4rem;
+            padding: 3rem 1.5rem 5rem;
         }
 
         section {
             background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 1.5rem 1.75rem;
-            margin-bottom: 1.5rem;
+            border-radius: var(--radius);
+            padding: 2rem 2.25rem;
+            margin-bottom: 1.75rem;
+            box-shadow: var(--shadow-card);
+            scroll-margin-top: 5rem;
         }
 
         h2 {
-            margin-top: 0;
-            color: var(--accent-dark);
-            font-size: 1.4rem;
+            margin: 0 0 1rem;
+            color: var(--text);
+            font-size: 1.625rem;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            text-wrap: balance;
         }
 
         h3 {
-            color: var(--accent-dark);
-            font-size: 1.1rem;
+            color: var(--text);
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-top: 2rem;
             margin-bottom: 0.5rem;
+            letter-spacing: -0.005em;
         }
 
-        ul { padding-left: 1.25rem; }
-        li { margin-bottom: 0.4rem; }
+        p {
+            color: var(--text-2);
+            margin: 0.5rem 0;
+        }
 
-        a { color: var(--accent); }
-        a:hover { color: var(--accent-dark); }
+        ul {
+            padding-left: 1.25rem;
+            color: var(--text-2);
+        }
 
-        .video-link {
-            display: inline-block;
+        li { margin-bottom: 0.5rem; }
+
+        a {
+            color: var(--accent);
+            text-decoration-thickness: 1px;
+            text-underline-offset: 3px;
+            transition: color 0.15s ease;
+        }
+
+        a:hover { color: var(--accent-2); }
+
+        .features-layout {
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .features-layout ul {
+            flex: 1;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .features-layout li {
+            position: relative;
+            padding-left: 1.75rem;
+            margin-bottom: 0.65rem;
+        }
+
+        .features-layout li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.5em;
+            width: 0.9rem;
+            height: 0.9rem;
+            border-radius: 999px;
             background: var(--accent);
-            color: #ffffff;
-            padding: 0.6rem 1.2rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 500;
+            opacity: 0.15;
         }
 
-        .video-link:hover { background: var(--accent-dark); color: #ffffff; }
+        .features-layout li::after {
+            content: "";
+            position: absolute;
+            left: 0.22rem;
+            top: 0.7em;
+            width: 0.45rem;
+            height: 0.25rem;
+            border-left: 2px solid var(--accent);
+            border-bottom: 2px solid var(--accent);
+            transform: rotate(-45deg);
+        }
+
+        .features-layout img {
+            flex: 0 0 240px;
+            max-width: 240px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: var(--shadow-card);
+        }
+
+        @media (max-width: 600px) {
+            .features-layout {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            .features-layout img {
+                flex-basis: auto;
+                max-width: 100%;
+                align-self: center;
+            }
+        }
+
+        .advanced-video,
+        .video-overlay {
+            background: transparent;
+            box-shadow: none;
+            padding: 0;
+            text-align: center;
+        }
+
+        .advanced-video img,
+        .video-overlay img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 14px;
+            box-shadow: var(--shadow-float);
+        }
 
         footer {
             text-align: center;
             color: var(--muted);
             font-size: 0.875rem;
-            padding: 2rem 1rem;
+            padding: 3rem 1rem 4rem;
         }
 
-        footer a { color: var(--muted); margin: 0 0.5rem; }
+        footer a {
+            color: var(--muted);
+            margin: 0 0.5rem;
+        }
     </style>
 </head>
 <body>
     <header>
+        <img class="app-icon" src="images/appicon.jpg" alt="App Icon">
         <h1>Autox Data Logger</h1>
-        <p>Data logger for collecting and analyzing run data for autocross on iOS. Map the course, record your runs, then analyze your performance. Streamlined app flow to quickly analyze data between runs to find time during the event.</p>
+        <p>Find time between runs</p>
+        <p>Built for Autocross, ProSolo, Hill Climb, and Trackcross</p>
+        <div class="header-links">
+            <a href="https://apps.apple.com/us/app/autox-data-logger/id6742694051" target="_blank" rel="noopener">
+                <img src="images/app-store.png" alt="Download on the App Store">
+            </a>
+            <a href="https://discord.gg/EkZKFnTn" target="_blank" rel="noopener">
+                <img src="images/discord.png" alt="Join our Discord">
+            </a>
+        </div>
     </header>
 
     <nav>
         <a href="#features">Features</a>
-        <a href="#video">Overview</a>
+        <a href="#getting-started">Getting Started</a>
         <a href="#data">Data Collection</a>
-        <a href="#hardware">Hardware</a>
-        <a href="#gps">GPS Notes</a>
+        <a href="#faq">FAQ</a>
     </nav>
 
     <main>
         <section id="features">
             <h2>Features</h2>
-            <ul>
-                <li>Map the course, including the cones</li>
-                <li>Record your runs with GPS, video, ODB2 and accelerometer data</li>
-                <li>Analyze your runs with GPS traces, video, speed vs distance plots, time deltas, and g-force plots</li>
-                <li>Automatically start and stop recording for hands free data logging</li>
-                <li>Export your data</li>
-                <li>Import runs from others</li>
-            </ul>
+            <div class="features-layout">
+                <ul>
+                    <li>Map the course, including the cones</li>
+                    <li>Record your runs with GPS, video, OBD2 and accelerometer data</li>
+                    <li>Analyze your runs with GPS traces, video, speed vs distance plots, time deltas, and g-force plots</li>
+                    <li>Synchronize timing starting from any point in a run to see the exact time gained/lost at a specific point</li>
+                    <li>Automatically start and stop recording for hands-free data logging</li>
+                    <li>Export video with data overlays</li>
+                    <li>Export your data</li>
+                    <li>Import runs from others</li>
+                </ul>
+                <img src="images/chart_analysis.png" alt="Chart analysis screen showing run data">
+            </div>
         </section>
 
-        <section id="video">
-            <h2>Overview Video</h2>
-            <p>An overview of the app can be seen in this video on YouTube.</p>
-            <p><a class="video-link" href="https://youtu.be/1R-xmKB7NuA?si=xT87czbXcRUtSAsg" target="_blank" rel="noopener">Watch on YouTube</a></p>
+        <section id="advanced-video" class="advanced-video">
+            <img src="images/advanced_video.png" alt="Advanced video analysis screen">
+        </section>
+
+        <section id="getting-started">
+            <h2>Getting Started</h2>
+            <p>All you need to start is your iPhone. Unlike most data loggers, no external GPS hardware is required. The app's sensor fusion algorithm combines the phone's 1Hz internal GPS with its accelerometer data to produce a smooth 20Hz trace. That may be enough for some users to get started with.</p>
+            <p>When you're ready to step up, add an external BLE GPS module for native high-rate data, and an OBD2 adapter to layer in some additional data like throttle position and RPM. See <a href="#data">Data Collection</a> for recommended devices.</p>
+        </section>
+
+        <section id="video-overlay" class="video-overlay">
+            <img src="images/video-overlay.png" alt="Exported video overlay">
         </section>
 
         <section id="data">
             <h2>Data Collection</h2>
-            <p>The data collection is based on GPS/GNSS, video, and ODB2 data and is compatible with various devices.</p>
-        </section>
+            <p>The data collection is based on GPS/GNSS, video, and OBD2 data and is compatible with various devices. This app also has strong support for DIY GPS devices, natively supporting two projects.</p>
 
-        <section id="hardware">
-            <h2>Recommended GPS Devices</h2>
-            <p>These devices connect directly to the app for the best latency and data sample rates.</p>
+            <h3>Recommended GPS Devices</h3>
+            <p>These devices connect directly to the app for the best latency and full 25Hz data rates.</p>
             <ul>
                 <li><a href="https://www.racebox.pro/products/racebox-mini" target="_blank" rel="noopener">RaceBox Mini</a></li>
                 <li><a href="https://www.racebox.pro/products/racebox-mini-s" target="_blank" rel="noopener">RaceBox Mini S</a></li>
@@ -164,34 +338,59 @@
                 <li><a href="https://github.com/anchit92/ESP32-RaceBox-mini-Emulator/" target="_blank" rel="noopener">Opensource DIY GPS + IMU</a></li>
             </ul>
 
-            <h2>Other GPS Devices</h2>
-            <p>These devies connect through the iOS bluetooth manager and will have reduced sample rates for data collection. May need to enable the "Sensor Fusion" algorithm to increase the data sample rates</p>
+            <h3>Other GPS Devices</h3>
+            <p>These devices connect through the iOS Bluetooth manager and will have reduced sample rates for data collection. You may need to enable the "Sensor Fusion" algorithm to increase the data sample rates</p>
             <ul>
                 <li><a href="https://www.amazon.com/Dual-Electronics-XGPS160-Multipurpose-Augmentation/dp/B00E65TNYE/ref=asc_df_B00E65TNYE?tag=bingshoppinga-20&linkCode=df0&hvadid=80676876079901&hvnetw=o&hvqmt=e&hvbmt=be&hvdev=c&hvlocint=&hvlocphy=92654&hvtargid=pla-4584276356252922&psc=1&msclkid=b61428395e0411ce3ba841c2103d2e11" target="_blank" rel="noopener">Dual XGPS160</a></li>
-                <li><a href="https://www.amazon.com/Garmin-GLO-Bluetooth-Receiver-010-02184-01/dp/B07M9CZYTD/ref=sr_1_1?crid=2KF95SIECYCGV&dib=eyJ2IjoiMSJ9.E1nOhxLziRgJxa_mWwIz48RnpvbS2zJxjpMpj9uyKXTNQaSIA5Zb_2JjBbfbTrj97nZidn3lQteyhzuntqzW8mOeT6zRksWhOR0s-cVoNsDhTjriAhZ2kv6sw2UuZ-X0RThXt19PWyfF3zc_zhEGGSJdcy4iPGHvjKRiTiWi_JsdzSrBMdt5uEbMOBKk7wd4RKX3JrL0WePJHY0ac89D7eCO7XX1dM9ui8GtblJ-mkc.SZ9Fph3W8XN3h74vykQ_4YN-ac7bg45S16yJ1b3gouw&dib_tag=se&keywords=garmin+glo2&qid=1778077267&sprefix=garmin+glo2%2Caps%2C159&sr=8-1" target="_blank" rel="noopener">Garmin GLO 2</a></li>
+                <li><a href="https://www.amazon.com/Garmin-GLO-Bluetooth-Receiver-010-02184-01/dp/B07M9CZYTD/ref=sr_1_1?crid=2KF95SIECYCGV&dib=eyJ2IjoiMSJ9.E1nOhxLziRgJxa_mWwIz48RnpvbS2zJxjpMpj9uyKXTNQaSIA5Zb_2JjBbfbTrj97nZidn3lQteyHzuntqzW8mOeT6zRksWhOR0s-cVoNsDhTjriAHz2kv6sw2UuZ-X0RThXt19PWyfF3zc_zhEGGSJdcy4iPGHvjKRiTiWi_JsdzSrBMdt5uEbMOBKk7wd4RKX3JrL0WePJHY0ac89D7eCO7XX1dM9ui8GtblJ-mkc.SZ9Fph3W8XN3h74vykQ_4YN-ac7bg45S16yJ1b3gouw&dib_tag=se&keywords=garmin+glo2&qid=1778077267&sprefix=garmin+glo2%2Caps%2C159&sr=8-1" target="_blank" rel="noopener">Garmin GLO 2</a></li>
             </ul>
 
-            <h2>Recommended ODB2 Devices</h2>
+            <h3>Recommended OBD2 Devices</h3>
             <ul>
                 <li><a href="https://www.amazon.com/Veepeak-Bluetooth-Diagnostic-Supports-Vehicles/dp/B076XVQMVS/ref=asc_df_B076XVQMVS?tag=bingshoppinga-20&linkCode=df0&hvadid=80058400531892&hvnetw=o&hvqmt=e&hvbmt=be&hvdev=c&hvlocint=&hvlocphy=92824&hvtargid=pla-4583657886554327&psc=1&msclkid=1ffa9aa6b5c911b48122f35dfb197db4" target="_blank" rel="noopener">Veepeak OBDCheck BLE+</a></li>
             </ul>
 
-            <h2>GoPro Cameras</h2>
-            <p>This app is compatible with any GoPro camera that supports a WiFi connection to the phone. Any GoPro model from 5 to 13. Simply connect the phone to the GoPro's wifi network and enable GoPro control in the app settings.</p>
+            <h3>GoPro Cameras</h3>
+            <p>This app is compatible with any GoPro camera that supports a WiFi connection to the phone. Any GoPro model from 5 to 13. Simply connect the phone to the GoPro's WiFi network and enable GoPro control in the app settings.</p>
 
+            <h3>Internal Phone GPS</h3>
+            <p>The internal phone GPS will only transmit data at a rate of 1Hz. To work around this, the app includes a sensor fusion algorithm to interpolate between the slow 1Hz GPS readings using the phone's IMU data.</p>
         </section>
 
-        <section id="gps">
-            <h2>Internal Phone GPS</h2>
-            <p>The internal phone GPS will only transmit data at a rate of 1Hz. To work around this, the app includes a sensor fusion algorithm to interpolate between the slow 1Hz GPS readings using the phone's IMU data.</p>
+        <section id="faq">
+            <h2>FAQ</h2>
+
+            <h3>Do I need an external GPS device to get started?</h3>
+            <p>No. The app uses sensor fusion to combine your iPhone's 1Hz internal GPS with accelerometer data, producing a 20Hz trace. This may be enough for some basic analysis but a good external GPS device is highly recommended for series data analysis.</p>
+
+            <h3>The sensor fusion algorithm is producing some strange traces.</h3>
+            <p>Since this algorithm uses the phone's IMU to interpolate between the slow GPS updates the phone needs to be rigidly attached to the car in order to "feel" the car's motions. Additionally, the phone needs to stay in the exact same orientation for the entirety of the run.</p>
+
+            <h3>Does it work without cell or data service at the venue?</h3>
+            <p>Yes. All recording and analysis happens on-device, so you can run the app anywhere. Internet is only needed to download the app and share runs.</p>
+
+            <h3>Do I need to set up the start and finish lines ahead of time?</h3>
+            <p>No. Setting up the start and finish lines ahead of time is optional. Alternatively, you can disable this in the settings and record data freely. Then during data analysis the start and finish lines can be added and all of the recorded data will be reparsed.</p>
+
+            <h3>Is OBD2 required?</h3>
+            <p>No. OBD2 is optional and adds some telemetry like RPM, throttle position, and OBD2 speed on top of GPS and accelerometer data. The app works fine without it.</p>
+
+            <h3>Can I record video without a GoPro?</h3>
+            <p>Yes. The app records video with either the internal iPhone camera or a GoPro.</p>
+
+            <h3>How do I share runs with other drivers?</h3>
+            <p>Runs can be exported and imported between devices, so you can swap data with friends, instructors, or fellow competitors to compare lines and find time. You can even share start/finish lines so that all comparisons are done using the same reference points.</p>
+
+            <h3>Will it drain my phone's battery?</h3>
+            <p>It will drain a phone's battery faster; however, this app has been used at a full 7-hour test and tune without needing to be plugged in. It's recommended to keep the phone plugged in as much as possible while in use since there are many other factors that contribute to how long a phone's battery lasts.</p>
+
+            <h3>Is there an Android version?</h3>
+            <p>The app is iOS-only.</p>
         </section>
     </main>
 
     <footer>
-        <p>
-            <a href="https://fmuellerklein.wixsite.com/autoxdrivermod" target="_blank" rel="noopener">AutoX Driver Mod</a>
-        </p>
-        <p>&copy; 2025</p>
+        <p>&copy; 2026</p>
     </footer>
 </body>
 </html>

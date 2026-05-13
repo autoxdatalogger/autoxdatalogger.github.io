@@ -255,12 +255,83 @@
             transform: rotate(-45deg);
         }
 
-        .features-layout img {
+        .features-gallery {
             flex: 0 0 240px;
             max-width: 240px;
-            height: auto;
+            position: relative;
+            border-radius: 12px;
+        }
+
+        .gallery-scroll {
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
             border-radius: 12px;
             box-shadow: var(--shadow-card);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .gallery-scroll::-webkit-scrollbar { display: none; }
+
+        .gallery-scroll img {
+            flex: 0 0 100%;
+            width: 100%;
+            height: auto;
+            scroll-snap-align: center;
+            border-radius: 12px;
+            display: block;
+        }
+
+        .gallery-hint {
+            position: absolute;
+            top: 50%;
+            right: 0.5rem;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border: none;
+            border-radius: 999px;
+            background: rgba(15, 23, 42, 0.55);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font: inherit;
+            font-size: 1.25rem;
+            font-weight: 600;
+            line-height: 1;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            transform: translateY(-50%);
+            animation: gallery-nudge 1.6s ease-in-out infinite;
+            transition: background 0.15s ease;
+        }
+
+        .gallery-hint:hover,
+        .gallery-hint:focus-visible {
+            background: rgba(15, 23, 42, 0.78);
+        }
+
+        .gallery-hint:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 2px;
+        }
+
+        .gallery-hint.is-engaged {
+            animation: none;
+        }
+
+        @keyframes gallery-nudge {
+            0%, 100% { transform: translate(0, -50%); }
+            50% { transform: translate(5px, -50%); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .gallery-hint { animation: none; }
         }
 
         @media (max-width: 600px) {
@@ -268,9 +339,10 @@
                 flex-direction: column;
                 gap: 1.5rem;
             }
-            .features-layout img {
+            .features-gallery {
                 flex-basis: auto;
                 max-width: 100%;
+                width: 100%;
                 align-self: center;
             }
         }
@@ -307,7 +379,7 @@
 <body>
     <header>
         <img class="app-icon" src="images/appicon.jpg" alt="Autox Data Logger app icon">
-        <h1>Autox Data Logger</h1>
+        <h1>Autox Data Logger for iOS</h1>
         <p>Find time between runs</p>
         <p>Built for Autocross, ProSolo, Hill Climb, and Trackcross</p>
         <div class="header-links">
@@ -338,10 +410,17 @@
                     <li>Synchronize timing starting from any point in a run to see the exact time gained/lost at a specific point</li>
                     <li>Automatically start and stop recording for hands-free data logging</li>
                     <li>Export video with data overlays</li>
-                    <li>Export your data</li>
-                    <li>Import runs from others</li>
+                    <li>Export your data to share with others or import their data</li>
                 </ul>
-                <img src="images/chart_analysis.png" alt="Autox Data Logger chart analysis screen showing GPS, speed, and g-force traces">
+                <div class="features-gallery">
+                    <div class="gallery-scroll">
+                        <img src="images/chart_analysis.png" alt="Autox Data Logger chart analysis screen showing GPS, speed, and g-force traces">
+                        <img src="images/long_g.png" alt="Longitudinal g-force trace from a recorded run">
+                        <img src="images/time_sync.png" alt="Time synchronization view showing exact time gained or lost at a chosen point">
+                        <img src="images/basic_video.png" alt="Basic video playback with run data">
+                    </div>
+                    <button class="gallery-hint" type="button" aria-label="Show next image">›</button>
+                </div>
             </div>
         </section>
 
@@ -427,5 +506,23 @@
     <footer>
         <p>&copy; 2026</p>
     </footer>
+
+    <script>
+        (function () {
+            const scroller = document.querySelector('.gallery-scroll');
+            const hint = document.querySelector('.gallery-hint');
+            if (!scroller || !hint) return;
+
+            hint.addEventListener('click', () => {
+                hint.classList.add('is-engaged');
+                const step = scroller.clientWidth;
+                const atEnd = scroller.scrollLeft + step >= scroller.scrollWidth - 4;
+                scroller.scrollTo({
+                    left: atEnd ? 0 : scroller.scrollLeft + step,
+                    behavior: 'smooth',
+                });
+            });
+        })();
+    </script>
 </body>
 </html>

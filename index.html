@@ -272,6 +272,7 @@
             box-shadow: var(--shadow-card);
             scrollbar-width: none;
             -ms-overflow-style: none;
+            overflow-anchor: none;
         }
 
         .gallery-scroll::-webkit-scrollbar { display: none; }
@@ -418,6 +419,8 @@
                         <img src="images/long_g.png" alt="Longitudinal g-force trace from a recorded run">
                         <img src="images/time_sync.png" alt="Time synchronization view showing exact time gained or lost at a chosen point">
                         <img src="images/basic_video.png" alt="Basic video playback with run data">
+                        <img src="images/set_start.png" alt="Setting the start line on the course map">
+                        <img src="images/set_finish.png" alt="Setting the finish line on the course map">
                     </div>
                     <button class="gallery-hint" type="button" aria-label="Show next image">›</button>
                 </div>
@@ -512,6 +515,13 @@
             const scroller = document.querySelector('.gallery-scroll');
             const hint = document.querySelector('.gallery-hint');
             if (!scroller || !hint) return;
+
+            const resetToStart = () => {
+                scroller.scrollLeft = 0;
+            };
+            resetToStart();
+            window.addEventListener('load', resetToStart);
+            window.addEventListener('pageshow', resetToStart);
 
             hint.addEventListener('click', () => {
                 hint.classList.add('is-engaged');

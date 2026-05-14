@@ -40,6 +40,86 @@
       ]
     }
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do I need an external GPS device to get started?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The app uses sensor fusion to combine your iPhone's 1Hz internal GPS with accelerometer data, producing a 20Hz trace. This may be enough for some basic analysis but a good external GPS device is highly recommended for series data analysis."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "The sensor fusion algorithm is producing some strange traces.",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Since this algorithm uses the phone's IMU to interpolate between the slow GPS updates the phone needs to be rigidly attached to the car in order to \"feel\" the car's motions. Additionally, the phone needs to stay in the exact same orientation for the entirety of the run."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work without cell or data service at the venue?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. All recording and analysis happens on-device, so you can run the app anywhere. Internet is only needed to download the app and share runs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to set up the start and finish lines ahead of time?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Setting up the start and finish lines ahead of time is optional. Alternatively, you can disable this in the settings and record data freely. Then during data analysis the start and finish lines can be added and all of the recorded data will be reparsed."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is OBD2 required?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. OBD2 is optional and adds some telemetry like RPM, throttle position, and OBD2 speed on top of GPS and accelerometer data. The app works fine without it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I record video without a GoPro?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. The app records video with either the internal iPhone camera or a GoPro."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I share runs with other drivers?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Runs can be exported and imported between devices, so you can swap data with friends, instructors, or fellow competitors to compare lines and find time. You can even share start/finish lines so that all comparisons are done using the same reference points."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will it drain my phone's battery?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It will drain a phone's battery faster; however, this app has been used at a full 7-hour test and tune without needing to be plugged in. It's recommended to keep the phone plugged in as much as possible while in use since there are many other factors that contribute to how long a phone's battery lasts."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is there an Android version?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The app is iOS-only."
+          }
+        }
+      ]
+    }
+    </script>
     <style>
         :root {
             --bg: #f7f8fa;

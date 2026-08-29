@@ -511,16 +511,6 @@
             <img src="images/advanced_video.png" alt="Advanced video analysis screen with synchronized GPS, OBD2, and accelerometer overlays">
         </section>
 
-        <section id="getting-started">
-            <h2>Getting Started</h2>
-            <p>All you need to start is your iPhone. Unlike most data loggers, no external GPS hardware is required for high resolution GPS traces. The app's sensor fusion algorithm combines the phone's 1Hz internal GPS with its accelerometer data to produce a smooth 20Hz trace. That may be enough for some users to get started with.</p>
-            <p>When you're ready to step up, add an external BLE GPS module for native high-rate data, and an OBD2 adapter to layer in some additional data like throttle position and RPM. See <a href="#data">Data Collection</a> for recommended devices.</p>
-        </section>
-
-        <section id="video-overlay" class="video-overlay">
-            <img src="images/video-overlay.png" alt="Exported autocross video with speed, RPM, and lap timing overlay">
-        </section>
-
         <section id="data">
             <h2>Data Collection</h2>
             <p>The data collection is based on GPS/GNSS, video, and OBD2 data and is compatible with various devices. This app also has strong support for DIY GPS devices, natively supporting two projects.</p>
@@ -554,7 +544,11 @@
             <p>This app is compatible with any GoPro camera that supports a WiFi connection to the phone. Any GoPro model from 5 to 13. Simply connect the phone to the GoPro's WiFi network and enable GoPro control in the app settings.</p>
 
             <h3>Internal Phone GPS</h3>
-            <p>The internal phone GPS will only transmit data at a rate of 1Hz. To work around this, the app includes a sensor fusion algorithm to interpolate between the slow 1Hz GPS readings using the phone's IMU data.</p>
+            <p>The internal phone GPS will only transmit data at a rate of 1Hz. To work around this, the app includes a sensor fusion algorithm to interpolate between the slow 1Hz GPS readings using the phone's IMU data to produce a 20hz GPS trace.</p>
+        </section>
+
+        <section id="video-overlay" class="video-overlay">
+            <img src="images/video-overlay.png" alt="Exported autocross video with speed, RPM, and lap timing overlay">
         </section>
 
         <section id="faq">

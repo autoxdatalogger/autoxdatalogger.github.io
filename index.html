@@ -344,6 +344,9 @@
 
         .gallery-scroll {
             display: flex;
+            /* Default "stretch" would force every image to the tallest one's
+               height and warp it; flex-start lets each keep its own box. */
+            align-items: flex-start;
             gap: 0;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
@@ -360,7 +363,13 @@
         .gallery-scroll img {
             flex: 0 0 100%;
             width: 100%;
+            /* Fixed frame so the strip keeps one height; contain preserves each
+               screenshot's own aspect ratio instead of stretching it to fit. */
+            aspect-ratio: 732 / 1200;
             height: auto;
+            object-fit: contain;
+            object-position: center;
+            background: var(--surface);
             scroll-snap-align: center;
             border-radius: 12px;
             display: block;
@@ -498,6 +507,8 @@
                         <img src="images/chart_analysis.png" alt="Autox Data Logger chart analysis screen showing GPS, speed, and g-force traces">
                         <img src="images/long_g.png" alt="Longitudinal g-force trace from a recorded run">
                         <img src="images/time_sync.png" alt="Time synchronization view showing exact time gained or lost at a chosen point">
+                        <img src="images/recording_screen.jpeg" alt="Record runs with time delta gauges.">
+                        <img src="images/course_map.png" alt="Advanced course mapping with pointer cones.">
                         <img src="images/basic_video.png" alt="Basic video playback with run data">
                         <img src="images/set_start.png" alt="Setting the start line on the course map">
                         <img src="images/set_finish.png" alt="Setting the finish line on the course map">
